@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ATAuthDemoContext>(options =>
 builder.Services.AddDefaultIdentity<DemoUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ATAuthDemoContext>();
 
 // Add services to the container.
