@@ -15,14 +15,15 @@ namespace AdvancedTopicsAuthDemo.Controllers
 
         private readonly UserManager<DemoUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<DemoUser> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, ATAuthDemoContext context, RoleManager<IdentityRole> roleManager, UserManager<DemoUser> userManager)
+        public HomeController(ILogger<HomeController> logger, ATAuthDemoContext context, RoleManager<IdentityRole> roleManager, UserManager<DemoUser> userManager, SignInManager<DemoUser> signInManager)
         {
             _logger = logger;
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
-
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
@@ -57,6 +58,8 @@ namespace AdvancedTopicsAuthDemo.Controllers
             if (!hasRoleAlready)
             {
                 await _userManager.AddToRoleAsync(loggedIn, roleName);
+                await _signInManager.RefreshSignInAsync(loggedIn);
+
             }
 
             return RedirectToAction("Index");
